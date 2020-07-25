@@ -3,7 +3,7 @@ import json
 import urllib
 from Champion import *
 
-api_token = 'RGAPI-e6e8597b-ef0e-42ff-9ee7-66770d8ef9cb'
+api_token = 'xxxx'
 api_url_base = 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/'
 api_mastery_url_base = 'https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'
 api_ranked_url_base = 'https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/'
