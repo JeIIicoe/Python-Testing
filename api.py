@@ -3,7 +3,7 @@ import json
 import urllib
 from Champion import *
 
-api_token = 'xxxx'
+api_token = 'xxxxx'
 api_url_base = 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/'
 api_mastery_url_base = 'https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'
 api_ranked_url_base = 'https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/'
@@ -80,7 +80,7 @@ def winLossRatio(wins, losses): #Calculates win/loss % ratio
     return round(ratio, 2)
 
 
-
+#Everything starts here
 champ_data = load_champion_file()
 
 if champ_data is not None:
@@ -90,7 +90,7 @@ if champ_data is not None:
 else:
     print(':(')
 
-name = urllib.parse.quote(input("\nWhat is your account's name? "))
+name = urllib.parse.quote(input("\nSummoner Name: "))
 
 account_info = get_account_info()
 
@@ -104,14 +104,14 @@ if account_info is not None:
     ranked_info = get_account_rank(acc_id)
     mastery_info = get_account_mastery(acc_id)
 
-    print("\n-------------------------------------------")
+    print("-------------------------------------------")
     print("\nSUMMONER: ", acc_name, " | LEVEl: ", acc_level)
     print("\nCURRENT RANKS: ")
 
     for rank in ranked_info:
         queue = ''
         if rank['queueType'].count('SOLO'):
-            queue = "Solo & Duo Queue:\t"
+            queue = "Solo Queue:\t"
         elif rank['queueType'].count('FLEX'):
             queue = "Flex Queue:\t"
         print(queue, rank["tier"], rank["rank"], rank['leaguePoints'], "lp |", "WINS: ", rank['wins'], "| LOSSES:", rank['losses'], " | Win Ratio: ", winLossRatio(rank['wins'], rank['losses']))
@@ -119,15 +119,20 @@ if account_info is not None:
         
 
     print("\nMASTERY:")
-
-    for i in range(0, 10) :
+    print("Total Champions: ", len(champ_list))
+    #champAmount = int(input("\nHow many champions do you want to see?:"))
+    print("RANK                NAME | MASTERY")
+    print("----------------------------------")
+    #for i in range(champAmount) :
+    for i in range(0, 30) :
         champ_points = mastery_info[i]['championPoints']
         champ_id = mastery_info[i]['championId']
         champ_level = mastery_info[i]['championLevel']
         for Champion in champ_list :
             #print("Champ ID: ", champ_id, "/", type(champ_id), " | ID of list champ: ", Champion.return_key(), "/", type(Champion.return_key()))
             if champ_id == int(Champion.return_key()) :
-                print('Rank: ', i+1, ' Name: ', Champion.return_name(), 'Mastery Level:\t', champ_level, ' \tPoints: ', "{:,}".format(champ_points))
+                #print('Rank: ', i+1, ': ', Champion.return_name(), 'Level:\t', champ_level, ': ', "{:,}".format(champ_points))
+                print('Rank {0:<3} {1:>15} | Level {2:<1} - {3:,}'.format(i+1, Champion.return_name(), champ_level, champ_points))
 
 else:
     print('[!] Request Failed')
